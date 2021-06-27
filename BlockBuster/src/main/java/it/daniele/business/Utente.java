@@ -42,5 +42,7 @@ public class Utente {
 	@JsonIgnore
 	@OneToMany(mappedBy = "userAssociated")
 	private List<Song> musica;
+	@ManyToOne
+	private Azienda azienda;
 
 }
