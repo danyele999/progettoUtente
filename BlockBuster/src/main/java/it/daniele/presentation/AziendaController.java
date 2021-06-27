@@ -37,7 +37,7 @@ public class AziendaController {
 		}
 	}
 
-	@PostMapping("/aggiornaUtente")
+	@PostMapping("/aggiorna")
 	public ResponseEntity<Azienda> aggiorna(@RequestBody Azienda f) {
 		if (azser.aggiorna(f) == null) {
 			return new ResponseEntity<Azienda>(HttpStatus.NOT_FOUND);

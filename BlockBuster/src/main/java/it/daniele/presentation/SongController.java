@@ -36,7 +36,7 @@ public class SongController {
 		}
 	}
 
-	@PostMapping("/aggiornaUtente")
+	@PostMapping("/aggiorna")
 	public ResponseEntity<Song> aggiorna(@RequestBody Song f) {
 		if (songserv.aggiorna(f) == null) {
 			return new ResponseEntity<Song>(HttpStatus.NOT_FOUND);

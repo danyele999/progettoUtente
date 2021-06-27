@@ -37,7 +37,7 @@ public class FilmController {
 		}
 	}
 
-	@PostMapping("/aggiornaUtente")
+	@PostMapping("/aggiorna")
 	public ResponseEntity<Film> aggiorna(@RequestBody Film f) {
 		if (filser.aggiorna(f) == null) {
 			return new ResponseEntity<Film>(HttpStatus.NOT_FOUND);

@@ -36,7 +36,7 @@ public class DocumentarioController {
 		}
 	}
 
-	@PostMapping("/aggiornaUtente")
+	@PostMapping("/aggiorna")
 	public ResponseEntity<Documentario> aggiorna(@RequestBody Documentario f) {
 		if (docu.aggiorna(f) == null) {
 			return new ResponseEntity<Documentario>(HttpStatus.NOT_FOUND);

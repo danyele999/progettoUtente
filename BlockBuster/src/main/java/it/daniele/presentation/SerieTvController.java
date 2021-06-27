@@ -36,7 +36,7 @@ public class SerieTvController {
 		}
 	}
 
-	@PostMapping("/aggiornaUtente")
+	@PostMapping("/aggiorna")
 	public ResponseEntity<SerieTv> aggiorna(@RequestBody SerieTv f) {
 		if (serie.aggiorna(f) == null) {
 			return new ResponseEntity<SerieTv>(HttpStatus.NOT_FOUND);

@@ -36,7 +36,7 @@ public class GameController {
 		}
 	}
 
-	@PostMapping("/aggiornaUtente")
+	@PostMapping("/aggiorna")
 	public ResponseEntity<Game> aggiorna(@RequestBody Game f) {
 		if (gameser.aggiorna(f) == null) {
 			return new ResponseEntity<Game>(HttpStatus.NOT_FOUND);
