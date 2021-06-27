@@ -34,7 +34,7 @@ public class Utente {
 	@OneToMany(mappedBy = "utente")
 	private List<SerieTv> serieTv;
 	@JsonIgnore
-	@OneToMany
+	@OneToMany(mappedBy = "associatedUser")
 	private List<Preferiti> preferiti;
 	
 	
