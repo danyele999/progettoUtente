@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,11 +25,13 @@ public class FilmController {
 	private FilmService filser;
 
 	@PostMapping("/inserimento")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<Film> crea(@RequestBody Film f) {
 		return new ResponseEntity<Film>(filser.crea(f), HttpStatus.OK);
 	}
 
 	@GetMapping("/all")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<List<Film>> tutti() {
 		if (filser.getAll().isEmpty()) {
 			return new ResponseEntity<List<Film>>(HttpStatus.NOT_ACCEPTABLE);
@@ -38,6 +41,7 @@ public class FilmController {
 	}
 
 	@PostMapping("/aggiorna")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Film> aggiorna(@RequestBody Film f) {
 		if (filser.aggiorna(f) == null) {
 			return new ResponseEntity<Film>(HttpStatus.NOT_FOUND);
@@ -47,6 +51,7 @@ public class FilmController {
 	}
 
 	@DeleteMapping("/cancella/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> cancella(@PathVariable Long id) {
 		if (id == null) {
 			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
@@ -56,6 +61,7 @@ public class FilmController {
 	}
 
 	@GetMapping("/trova{id}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<Film> trova(@PathVariable Long id) {
 		if (filser.cercaId(id) == null) {
 			return new ResponseEntity<Film>(HttpStatus.NOT_ACCEPTABLE);
@@ -65,6 +71,7 @@ public class FilmController {
 	}
 
 	@PutMapping("/prenota/{utente}/{film}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<?> prenotazione(@PathVariable String utente, @PathVariable String film) {
 		return new ResponseEntity<>(filser.prenota(utente, film), HttpStatus.OK);
 	}

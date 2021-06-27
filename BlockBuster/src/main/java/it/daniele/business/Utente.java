@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -54,6 +53,5 @@ public class Utente {
 	@ManyToMany
 	@JoinTable(name = "ees_utente_ruoli", joinColumns = @JoinColumn(name = "utente_id"), inverseJoinColumns = @JoinColumn(name = "ruolo_id"))
 	private Set<Ruolo> roles = new HashSet<Ruolo>();
-	
 
 }

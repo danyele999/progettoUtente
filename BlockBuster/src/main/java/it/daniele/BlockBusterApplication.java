@@ -1,4 +1,4 @@
-package application;
+package it.daniele;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
