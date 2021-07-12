@@ -1,5 +1,6 @@
 package it.daniele.presentation;
 
+import java.lang.module.FindException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.daniele.ExeptionHandler.DeleteExeption;
+import it.daniele.ExeptionHandler.FindExeption;
+import it.daniele.ExeptionHandler.ModifierExeption;
 import it.daniele.business.Film;
 import it.daniele.persistence.FilmService;
 
@@ -34,7 +38,7 @@ public class FilmController {
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<List<Film>> tutti() {
 		if (filser.getAll().isEmpty()) {
-			return new ResponseEntity<List<Film>>(HttpStatus.NOT_ACCEPTABLE);
+			throw new FindException("la lista e' vuota");
 		} else {
 			return new ResponseEntity<List<Film>>(filser.getAll(), HttpStatus.OK);
 		}
@@ -44,7 +48,7 @@ public class FilmController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Film> aggiorna(@RequestBody Film f) {
 		if (filser.aggiorna(f) == null) {
-			return new ResponseEntity<Film>(HttpStatus.NOT_FOUND);
+			throw new ModifierExeption("impossibile modificare questo oggetto");
 		} else {
 			return new ResponseEntity<Film>(filser.aggiorna(f), HttpStatus.ACCEPTED);
 		}
@@ -54,7 +58,7 @@ public class FilmController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> cancella(@PathVariable Long id) {
 		if (id == null) {
-			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+			throw new DeleteExeption("impossibile eliminare l'oggetto con questo id");
 		} else {
 			return new ResponseEntity<String>(filser.delete(id), HttpStatus.ACCEPTED);
 		}
@@ -64,7 +68,7 @@ public class FilmController {
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<Film> trova(@PathVariable Long id) {
 		if (filser.cercaId(id) == null) {
-			return new ResponseEntity<Film>(HttpStatus.NOT_ACCEPTABLE);
+			throw new FindExeption("impossibile trovare un oggetto con questo id");
 		} else {
 			return new ResponseEntity<Film>(filser.cercaId(id), HttpStatus.OK);
 		}

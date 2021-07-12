@@ -1,5 +1,6 @@
 package it.daniele.presentation;
 
+import java.lang.module.FindException;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.daniele.ExeptionHandler.DeleteExeption;
+import it.daniele.ExeptionHandler.FindExeption;
+import it.daniele.ExeptionHandler.ModifierExeption;
 import it.daniele.business.Azienda;
 import it.daniele.persistence.AziendaService;
 
@@ -34,7 +38,7 @@ public class AziendaController {
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<List<Azienda>> tutti() {
 		if (azser.getAll().isEmpty()) {
-			return new ResponseEntity<List<Azienda>>(HttpStatus.NOT_ACCEPTABLE);
+			throw new FindException("la lista e' vuota");
 		} else {
 			return new ResponseEntity<List<Azienda>>(azser.getAll(), HttpStatus.OK);
 		}
@@ -44,7 +48,7 @@ public class AziendaController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Azienda> aggiorna(@RequestBody Azienda f) {
 		if (azser.aggiorna(f) == null) {
-			return new ResponseEntity<Azienda>(HttpStatus.NOT_FOUND);
+			throw new ModifierExeption("impossibile modificare questo oggetto");
 		} else {
 			return new ResponseEntity<Azienda>(azser.aggiorna(f), HttpStatus.ACCEPTED);
 		}
@@ -54,7 +58,7 @@ public class AziendaController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> cancella(@PathVariable Long id) {
 		if (id == null) {
-			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+			throw new DeleteExeption("impossibile eliminare l'oggetto con questo id");
 		} else {
 			return new ResponseEntity<String>(azser.delete(id), HttpStatus.ACCEPTED);
 		}
@@ -64,7 +68,7 @@ public class AziendaController {
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<Azienda> trova(@PathVariable Long id) {
 		if (azser.cercaId(id) == null) {
-			return new ResponseEntity<Azienda>(HttpStatus.NOT_ACCEPTABLE);
+			throw new FindExeption("impossibile trovare un oggetto con questo id");
 		} else {
 			return new ResponseEntity<Azienda>(azser.cercaId(id), HttpStatus.OK);
 		}
@@ -74,7 +78,7 @@ public class AziendaController {
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<List<Azienda>> trova(@PathVariable Date data) {
 		if (azser.perData(data) == null) {
-			return new ResponseEntity<List<Azienda>>(HttpStatus.NOT_ACCEPTABLE);
+			throw new FindExeption("impossibile trovare un oggetto con questo id");
 		} else {
 			return new ResponseEntity<List<Azienda>>(azser.perData(data), HttpStatus.OK);
 		}

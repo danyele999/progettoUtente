@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.daniele.ExeptionHandler.DeleteExeption;
+import it.daniele.ExeptionHandler.FindExeption;
+import it.daniele.ExeptionHandler.ModifierExeption;
 import it.daniele.business.Song;
 import it.daniele.persistence.SongService;
 
@@ -33,7 +36,7 @@ public class SongController {
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<List<Song>> tutti() {
 		if (songserv.getAll().isEmpty()) {
-			return new ResponseEntity<List<Song>>(HttpStatus.NOT_ACCEPTABLE);
+			throw new FindExeption("nessuna canzone trovata nella lista");
 		} else {
 			return new ResponseEntity<List<Song>>(songserv.getAll(), HttpStatus.OK);
 		}
@@ -43,7 +46,7 @@ public class SongController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Song> aggiorna(@RequestBody Song f) {
 		if (songserv.aggiorna(f) == null) {
-			return new ResponseEntity<Song>(HttpStatus.NOT_FOUND);
+			throw new ModifierExeption("impossibile modificare questa canzone riprova piu' tardi");
 		} else {
 			return new ResponseEntity<Song>(songserv.aggiorna(f), HttpStatus.ACCEPTED);
 		}
@@ -53,7 +56,7 @@ public class SongController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> cancella(@PathVariable Long id) {
 		if (id == null) {
-			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+			throw new DeleteExeption("impossibile cancellare la canzone con tale id, riprova");
 		} else {
 			return new ResponseEntity<String>(songserv.delete(id), HttpStatus.ACCEPTED);
 		}
@@ -63,7 +66,7 @@ public class SongController {
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<Song> trova(@PathVariable Long id) {
 		if (songserv.cercaId(id) == null) {
-			return new ResponseEntity<Song>(HttpStatus.NOT_ACCEPTABLE);
+			throw new FindExeption("impossibile trovare una canzone con questo id");
 		} else {
 			return new ResponseEntity<Song>(songserv.cercaId(id), HttpStatus.OK);
 		}

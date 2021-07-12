@@ -1,5 +1,6 @@
 package it.daniele.presentation;
 
+import java.lang.module.FindException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.daniele.ExeptionHandler.DeleteExeption;
+import it.daniele.ExeptionHandler.FindExeption;
+import it.daniele.ExeptionHandler.ModifierExeption;
 import it.daniele.business.Documentario;
 import it.daniele.persistence.DocumentarioService;
 
@@ -33,7 +37,7 @@ public class DocumentarioController {
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<List<Documentario>> tutti() {
 		if (docu.getAll().isEmpty()) {
-			return new ResponseEntity<List<Documentario>>(HttpStatus.NOT_ACCEPTABLE);
+			throw new FindException("la lista e' vuota");
 		} else {
 			return new ResponseEntity<List<Documentario>>(docu.getAll(), HttpStatus.OK);
 		}
@@ -43,7 +47,7 @@ public class DocumentarioController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Documentario> aggiorna(@RequestBody Documentario f) {
 		if (docu.aggiorna(f) == null) {
-			return new ResponseEntity<Documentario>(HttpStatus.NOT_FOUND);
+			throw new ModifierExeption("impossibile modificare questo oggetto");
 		} else {
 			return new ResponseEntity<Documentario>(docu.aggiorna(f), HttpStatus.ACCEPTED);
 		}
@@ -53,7 +57,7 @@ public class DocumentarioController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> cancella(@PathVariable Long id) {
 		if (id == null) {
-			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+			throw new DeleteExeption("impossibile eliminare l'oggetto con questo id");
 		} else {
 			return new ResponseEntity<String>(docu.delete(id), HttpStatus.ACCEPTED);
 		}
@@ -63,7 +67,7 @@ public class DocumentarioController {
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<Documentario> trova(@PathVariable Long id) {
 		if (docu.cercaId(id) == null) {
-			return new ResponseEntity<Documentario>(HttpStatus.NOT_ACCEPTABLE);
+			throw new FindExeption("impossibile trovare un oggetto con questo id");
 		} else {
 			return new ResponseEntity<Documentario>(docu.cercaId(id), HttpStatus.OK);
 		}

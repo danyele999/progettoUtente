@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.daniele.ExeptionHandler.CreationExeption;
+import it.daniele.ExeptionHandler.DeleteExeption;
+import it.daniele.ExeptionHandler.FindExeption;
+import it.daniele.ExeptionHandler.ModifierExeption;
 import it.daniele.business.Preferiti;
 import it.daniele.persistence.PreferitiService;
 
@@ -25,7 +29,7 @@ public class PreferitiController {
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<?> crea(@RequestBody Preferiti pref) {
 		if (pref == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			throw new CreationExeption("impossibile creare questo oggetto");
 		} else {
 			return new ResponseEntity<>(ps.crea(pref), HttpStatus.ACCEPTED);
 		}
@@ -35,7 +39,7 @@ public class PreferitiController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> modifica(@RequestBody Preferiti pref) {
 		if (pref.getIdentify() < 0) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			throw new ModifierExeption("impossibile modificare questo oggetto");
 		} else {
 			return new ResponseEntity<>(ps.modifica(pref), HttpStatus.ACCEPTED);
 		}
@@ -45,7 +49,7 @@ public class PreferitiController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> cancella(@PathVariable Long id) {
 		if (id == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+			throw new DeleteExeption("impossibile eliminare l'oggetto con questo id");
 		} else {
 			return new ResponseEntity<>(ps.delete(id), HttpStatus.ACCEPTED);
 		}
@@ -55,7 +59,7 @@ public class PreferitiController {
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<?> cercaId(@PathVariable Long id) {
 		if (id == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			throw new FindExeption("impossibile trovare un oggetto con questo id");
 		} else {
 			return new ResponseEntity<>(ps.cercaId(id), HttpStatus.OK);
 		}

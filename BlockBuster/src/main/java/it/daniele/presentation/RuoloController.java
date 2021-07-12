@@ -3,6 +3,7 @@ package it.daniele.presentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ public class RuoloController {
 	private RuoloService rs;
 
 	@GetMapping("/inserimento")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> inserimentoNuovoRuolo(@RequestBody Ruolo role) {
 		if (rs.aggiungiRuolo(role).getClass() == null) {
 			throw new CreationExeption("i dati inseriti non sono supportati");
@@ -31,6 +33,7 @@ public class RuoloController {
 	}
 
 	@DeleteMapping("/cancellaRuolo/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> cancellazioneRuolo(@PathVariable Long id) {
 		if (id == null) {
 			throw new DeleteExeption(
