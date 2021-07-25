@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.daniele.business.Utente;
+import it.daniele.login.LoginRequest;
+import it.daniele.login.LoginResponse;
+import it.daniele.login.UserDetailsImpl;
 import it.daniele.persistence.UtenteService;
-import login.LoginRequest;
-import login.LoginResponse;
-import login.UserDetailsImpl;
-import security.JwtUtils;
+import it.daniele.security.JwtUtils;
 
 @RestController
 @RequestMapping("/api")

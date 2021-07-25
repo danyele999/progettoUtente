@@ -8,20 +8,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
-public class Documentario {
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Veicolo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String nome;
-	private double durata;
-	private String recensione;
+	private int porte;
+	private String targa;
+	private String modello;
 	@Enumerated(EnumType.STRING)
-	private Valutazione valutazione;
-	private Genere genere;
+	private CasaMadre casaMadre;
+	private double cavalli;
+	private int annoProduzione;
 	@ManyToOne
 	private Utente utente;
 

@@ -1,4 +1,4 @@
-package login;
+package it.daniele.login;
 
 import lombok.Getter;
 import lombok.Setter;

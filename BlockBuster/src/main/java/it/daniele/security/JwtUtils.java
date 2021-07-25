@@ -1,4 +1,4 @@
-package security;
+package it.daniele.security;
 
 import java.util.Date;
 
@@ -12,7 +12,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
-import login.UserDetailsImpl;
+import it.daniele.login.UserDetailsImpl;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

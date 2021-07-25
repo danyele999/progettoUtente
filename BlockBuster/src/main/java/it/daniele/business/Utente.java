@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +18,7 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import it.daniele.security.StringAttributeConverter;
 import lombok.Data;
 
 @Entity
@@ -28,9 +31,11 @@ public class Utente {
 	private String cognome;
 	private Date dataDiNascita;
 	private String nickname;
+	@Convert(converter = StringAttributeConverter.class)
 	private String password;
 	private String mail;
 	private boolean active;
+	private String indirizzo;
 	@JsonIgnore
 	@OneToMany(mappedBy = "utente")
 	private List<Film> film;
@@ -51,7 +56,14 @@ public class Utente {
 	@ManyToOne
 	private Azienda azienda;
 	@ManyToMany
-	@JoinTable(name = "ees_utente_ruoli", joinColumns = @JoinColumn(name = "utente_id"), inverseJoinColumns = @JoinColumn(name = "ruolo_id"))
+	@JoinTable(name = "ees_utente_ruoli", joinColumns = @JoinColumn(name = "utente_codice"), inverseJoinColumns = @JoinColumn(name = "ruolo_id"))
 	private Set<Ruolo> roles = new HashSet<Ruolo>();
+	@OneToMany(mappedBy = "utente")
+	private List<Veicolo> veicoli;
+	@OneToMany(mappedBy = "ute")
+	private List<Garage> garage;
+//	@ManyToMany
+//	@JoinTable(name = "garage_utente", joinColumns = @JoinColumn(name = "utente_nome"), inverseJoinColumns = @JoinColumn(name = "via_garage"))
+//	private List<Garage> garage = new ArrayList<>();
 
 }

@@ -1,4 +1,4 @@
-package login;
+package it.daniele.login;
 
 import java.util.Date;
 import java.util.List;

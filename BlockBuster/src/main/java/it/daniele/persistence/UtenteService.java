@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,11 @@ public class UtenteService {
 	private RuoloRepo rr;
 	@Autowired
 	private PasswordEncoder encoder;
+	
+	@Bean
+	public PasswordEncoder getEncoder() {
+	    return new BCryptPasswordEncoder();
+	}
 
 	public Utente crea(Utente utente) {
 		return ut.save(utente);

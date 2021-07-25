@@ -6,9 +6,10 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import it.daniele.business.Utente;
-
+@Repository
 public interface UtenteRepo extends JpaRepository<Utente, Long> {
 
 	@Query("SELECT u FROM Utente u WHERE u.nome LIKE %:nome%")
