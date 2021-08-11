@@ -53,10 +53,9 @@ public class AuthController {
 
 	@PostMapping("/registraUtente/{idRole}")
 	public Utente creaUtente(@RequestBody Utente utaa, @PathVariable Long idRole) {
-		@SuppressWarnings("unused")
 		Utente nuovo = utService.saveUtente(utaa.getNome(), utaa.getCognome(), utaa.getMail(), utaa.getNickname(),
 				utaa.getPassword(), idRole);
-		return utaa;
+		return nuovo;
 	}
 
 	@GetMapping("/aggiornamentoPassword/{id}")

@@ -7,13 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.daniele.business.Azienda;
+import it.daniele.business.Utente;
 import it.daniele.business.repository.AziendaRepo;
+import it.daniele.business.repository.UtenteRepo;
 
 @Service
 public class AziendaService {
 
 	@Autowired
 	private AziendaRepo az;
+	@Autowired
+	private UtenteRepo ut;
 
 	public Azienda crea(Azienda f) {
 		return az.save(f);
@@ -37,7 +41,7 @@ public class AziendaService {
 	}
 
 	public Azienda aggiorna(Azienda f) {
-		if (f.getIdentity() == null) {
+		if (f.getId() == null) {
 			return null;
 		} else {
 			return az.save(f);
@@ -68,6 +72,16 @@ public class AziendaService {
 		} else {
 			return az.findByultimaModifica(durata);
 		}
+
+	}
+
+	public Utente ricercaPerCodice(Long id) {
+
+		if (id != null) {
+			return ut.findById(id).get();
+
+		} else
+			return null;
 
 	}
 

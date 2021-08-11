@@ -86,7 +86,7 @@ public class UtenteService {
 	}
 
 	public Utente saveUtente(String nome, String cognome, String mail, String nickname, String password, Long idRole) {
-		Utente utente = ut.findBynome(nome).get();
+		Utente utente = new Utente();
 		Ruolo ru = rr.findById(idRole).get();
 		Set<Ruolo> set = new HashSet<>();
 		set.add(ru);

@@ -64,17 +64,17 @@ public class AziendaController {
 		}
 	}
 
-	@GetMapping("/trova{id}")
+	@GetMapping("/trova/{id}")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<Azienda> trova(@PathVariable Long id) {
-		if (azser.cercaId(id) == null) {
+		if (id == null) {
 			throw new FindExeption("impossibile trovare un oggetto con questo id");
 		} else {
 			return new ResponseEntity<Azienda>(azser.cercaId(id), HttpStatus.OK);
 		}
 	}
 
-	@GetMapping("/data{data}")
+	@GetMapping("/data/{data}")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<List<Azienda>> trova(@PathVariable Date data) {
 		if (azser.perData(data) == null) {
@@ -82,5 +82,14 @@ public class AziendaController {
 		} else {
 			return new ResponseEntity<List<Azienda>>(azser.perData(data), HttpStatus.OK);
 		}
+	}
+
+	@GetMapping("/daniele/{id}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+	public ResponseEntity<?> apiDiProva(@PathVariable Long id) {
+		if (azser.ricercaPerCodice(id) == null) {
+			throw new FindException("Antonio Daniele Crisci e' coglione");
+		}
+		return new ResponseEntity<>(azser.ricercaPerCodice(id), HttpStatus.OK);
 	}
 }

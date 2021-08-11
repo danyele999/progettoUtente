@@ -62,8 +62,6 @@ public class Utente {
 	private List<Veicolo> veicoli;
 	@OneToMany(mappedBy = "ute")
 	private List<Garage> garage;
-//	@ManyToMany
-//	@JoinTable(name = "garage_utente", joinColumns = @JoinColumn(name = "utente_nome"), inverseJoinColumns = @JoinColumn(name = "via_garage"))
-//	private List<Garage> garage = new ArrayList<>();
+
 
 }

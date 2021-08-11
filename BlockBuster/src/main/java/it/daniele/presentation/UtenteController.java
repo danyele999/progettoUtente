@@ -31,7 +31,7 @@ public class UtenteController {
 	private RecensioneService rs;
 
 	@PostMapping("/inserimento")
-	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+//	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<Utente> crea(@RequestBody Utente utente) {
 		return new ResponseEntity<Utente>(ut.crea(utente), HttpStatus.OK);
 	}
@@ -57,7 +57,7 @@ public class UtenteController {
 	}
 
 	@DeleteMapping("/cancella/{id}")
-	@PreAuthorize("hasRole('ADMIN')")
+//	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> cancella(@PathVariable Long id) {
 		if (id == null) {
 			throw new DeleteExeption("impossibile eliminare questo utente");

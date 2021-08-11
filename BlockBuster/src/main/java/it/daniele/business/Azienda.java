@@ -11,14 +11,20 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Azienda {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long identity;
+	private Long id;
 	private String name;
 	private String via;
 	private String telefono;
